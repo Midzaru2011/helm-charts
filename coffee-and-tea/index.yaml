@@ -10,5 +10,5 @@ entries:
     type: application
     urls:
     - https://midzaru2011.github.io/helm-charts/coffee-and-tea-0.1.0.tgz
-    version: 0.1.0
+    version: 0.1.0 #
 generated: "2025-03-28T11:18:55.150226421Z"
