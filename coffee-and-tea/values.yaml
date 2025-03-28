@@ -17,6 +17,10 @@ database:
   username: "sasha"
   password: "password" # Это значение будет закодировано в Secret автоматически
 
+serviceAccount:
+  create: false
+  name: "Sasha"
+
 env:
   SPRING_DATASOURCE_URL: "{{ .Values.database.url }}"
   SPRING_DATASOURCE_USERNAME: "{{ .Values.database.username }}"
