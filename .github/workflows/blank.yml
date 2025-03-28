@@ -35,7 +35,7 @@ jobs:
     # 4. Обновление индекса репозитория
     - name: Update Helm Index
       run: |
-        helm repo index --url https://your-github-username.github.io/helm-charts/ .
+        helm repo index --url https://midzaru2011.github.io/helm-charts/ .
 
     # 5. Загрузка файлов в GitHub Pages
     - name: Commit and Push Changes
