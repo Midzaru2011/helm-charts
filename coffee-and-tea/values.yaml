@@ -13,7 +13,7 @@ service:
   targetPort: 8081
 
 database:
-  url: "jdbc:postgresql:/df//CoffeeAndTea"
+  url: "jdbc:postgresql:/f//CoffeeAndTea"
   username: "sasha"
   password: "password" # Это значение будет закодировано в Secret автоматически
 
