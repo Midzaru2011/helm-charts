@@ -16,48 +16,35 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Установка Helm CLI
-    - name: Install Helm
+    # 2. Извлечение appVersion из сообщения коммита
+    - name: Extract appVersion from commit message
+      id: extract_app_version
       run: |
-        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+        # Получаем последнее сообщение коммита
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
-    # 3. Увеличение appVersion в Chart.yaml
-    - name: Bump appVersion
-      id: bump_version
+        # Используем регулярное выражение для извлечения appVersion
+        APP_VERSION=$(echo "$COMMIT_MESSAGE" | grep -oP 'appVersion:\s*"\K[^"]+')
+
+        # Если appVersion найден, сохраняем его как переменную окружения
+        if [ -n "$APP_VERSION" ]; then
+          echo "Extracted appVersion: $APP_VERSION"
+          echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
+        else
+          echo "No appVersion found in commit message. Skipping update."
+          exit 0
+        fi
+
+    # 3. Обновление appVersion в Chart.yaml
+    - name: Update Chart.yaml with new appVersion
+      if: env.APP_VERSION != ''
       run: |
-        # Извлекаем текущую версию из Chart.yaml
-        CHART_FILE="./coffee-and-tea/Chart.yaml"
-        CURRENT_VERSION=$(grep -oP 'appVersion:\s*"\K[^"]+' "$CHART_FILE")
+        # Обновляем поле appVersion в Chart.yaml
+        sed -i "s/^appVersion:.*/appVersion: \"${{ env.APP_VERSION }}\"/" ./coffee-and-tea/Chart.yaml
 
-        # Разбиваем версию на части
-        MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
-        MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
-        PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3)
+        # Проверяем, что файл был успешно обновлен
+        cat ./coffee-and-tea/Chart.yaml  
 
-        # Увеличиваем патч-версию
-        NEW_PATCH=$((PATCH + 1))
-        NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
-
-        # Обновляем Chart.yaml
-        sed -i "s/appVersion:.*/appVersion: \"${NEW_VERSION}\"/" "$CHART_FILE"
-
-        # Проверяем обновленное значение appVersion
-        echo "Updated appVersion: $NEW_VERSION"
-        cat "$CHART_FILE"
-
-        # Экспортируем новую версию как выходную переменную
-        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
-    # 4. Упаковка Helm Chart
-    - name: Package Helm Chart
-      run: helm package ./coffee-and-tea
-
-    # 5. Обновление индекса репозитория
-    - name: Update Helm Index
-      run: |
-        helm repo index --url https://midzaru2011.github.io/helm-charts/ .
-
-    # 6. Настройка SSH для пуша изменений
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
@@ -65,11 +52,25 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-    # 7. Загрузка файлов в GitHub Pages
+    # 2. Установка Helm CLI
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    # 3. Упаковка Helm Chart
+    - name: Package Helm Chart
+      run: helm package ./coffee-and-tea
+
+    # 4. Обновление индекса репозитория
+    - name: Update Helm Index
+      run: |
+        helm repo index --url https://midzaru2011.github.io/helm-charts/ .
+
+    # 5. Загрузка файлов в GitHub Pages
     - name: Commit and Push Changes
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add .
-        git commit -m "Automated update of Helm Chart to appVersion: ${{ env.NEW_VERSION }}" || echo "No changes to commit"
+        git commit -m "Automated update of Helm Chart and index.yaml" || echo "No changes to commit"
         git push git@github.com:Midzaru2011/helm-charts.git main
