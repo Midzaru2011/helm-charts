@@ -1,6 +1,6 @@
 # Default values for coffee-and-tea.
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: midzaru2011/coffee-and-tea-app
@@ -9,8 +9,8 @@ image:
 
 service:
   type: LoadBalancer
-  port: 8081
-  targetPort: 8081
+  port: 8082
+  targetPort: 8082
 
 database:
   url: jdbc:postgresql://158.160.34.71:5432/CoffeeAndTea
