@@ -16,6 +16,35 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # 2. Извлечение appVersion из сообщения коммита
+    - name: Extract appVersion from commit message
+      id: extract_app_version
+      run: |
+        # Получаем последнее сообщение коммита
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+
+        # Используем регулярное выражение для извлечения appVersion
+        APP_VERSION=$(echo "$COMMIT_MESSAGE" | grep -oP 'appVersion:\s*"\K[^"]+')
+
+        # Если appVersion найден, сохраняем его как переменную окружения
+        if [ -n "$APP_VERSION" ]; then
+          echo "Extracted appVersion: $APP_VERSION"
+          echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
+        else
+          echo "No appVersion found in commit message. Skipping update."
+          exit 0
+        fi
+
+    # 3. Обновление appVersion в Chart.yaml
+    - name: Update Chart.yaml with new appVersion
+      if: env.APP_VERSION != ''
+      run: |
+        # Обновляем поле appVersion в Chart.yaml
+        sed -i "s/^appVersion:.*/appVersion: \"${{ env.APP_VERSION }}\"/" ./coffee-and-tea/Chart.yaml
+
+        # Проверяем, что файл был успешно обновлен
+        cat ./coffee-and-tea/Chart.yaml  
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
