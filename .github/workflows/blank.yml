@@ -6,6 +6,8 @@ on:
       - main # Запускать только при пуше в ветку main
     paths:
       - "coffee-and-tea/**" # Ограничение на изменения в директории с Chart
+    paths-ignore:
+      - "coffee-and-tea/Chart.yaml"
 
 jobs:
   publish:
