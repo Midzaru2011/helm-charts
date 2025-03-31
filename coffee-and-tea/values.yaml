@@ -1,4 +1,4 @@
-# Default values for coffee-and-tea
+# Default values for coffee-and-tea.
 
 replicaCount: 2
 
