@@ -17,16 +17,6 @@ database:
   username: "sasha"
   password: "password" # Это значение будет закодировано в Secret автоматически
 
-ingress:
-  enabled: false
-  annotations: {}
-  hosts:
-    - host: example.com
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-
 serviceAccount:
   create: false
   name: "Sasha"
