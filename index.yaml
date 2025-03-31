@@ -2,13 +2,13 @@ apiVersion: v1
 entries:
   coffee-and-tea:
   - apiVersion: v2
-    appVersion: 1.0.6
-    created: "2025-03-31T09:02:59.118733245Z"
+    appVersion: 1.0.5
+    created: "2025-03-31T09:02:45.574842581Z"
     description: A Helm chart for deploying the Coffee and Tea application
-    digest: 599ed6bf27e0950e40298e57ca42e0174a34576f12c55cfdf5a38ece34c9d44c
+    digest: edc547d7e08058191babe7c4f124d480005aba071495f5cb9a737be3d0e10ff6
     name: coffee-and-tea
     type: application
     urls:
     - https://midzaru2011.github.io/helm-charts/coffee-and-tea-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-31T09:02:59.118285396Z"
+generated: "2025-03-31T09:02:45.574382008Z"
