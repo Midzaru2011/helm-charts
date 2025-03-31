@@ -6,8 +6,6 @@ on:
       - main # Запускать только при пуше в ветку main
     paths:
       - "coffee-and-tea/**" # Ограничение на изменения в директории с Chart
-    paths-ignore:
-      - "coffee-and-tea/Chart.yaml"
 
 jobs:
   publish:
@@ -73,5 +71,10 @@ jobs:
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add .
-        git commit -m "Automated update of Helm Chart to appVersion: ${{ env.NEW_VERSION }}" || echo "No changes to commit"
-        git push git@github.com:Midzaru2011/helm-charts.git main
+        # Проверяем, есть ли изменения только в Chart.yaml
+        if git diff --cached --name-only | grep -qv "coffee-and-tea/Chart.yaml"; then
+          git commit -m "Automated update of Helm Chart to appVersion: ${{ env.NEW_VERSION }}" || echo "No changes to commit"
+          git push git@github.com:Midzaru2011/helm-charts.git main
+        else
+          echo "Only Chart.yaml was modified, skipping commit to avoid loop."
+        fi
