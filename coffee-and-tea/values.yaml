@@ -1,6 +1,6 @@
 # Default values for coffee-and-tea.
 
-replicaCount: 2
+replicaCount: 4
 
 image:
   repository: midzaru2011/coffee-and-tea-app
