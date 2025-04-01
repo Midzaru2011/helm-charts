@@ -3,9 +3,9 @@ entries:
   coffee-and-tea:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2025-04-01T14:40:02.192921458Z"
+    created: "2025-04-01T14:49:24.938932546Z"
     description: A Helm chart for deploying the Coffee and Tea application
-    digest: 2fa70ce817b6e1e31c0292107ca748ff39fafd2ace007bfd486122ab41002ce5
+    digest: 3743f82fe41d85e6930ad30ee66a0c8ebaa38f56f244e6c1259a2da96b467df0
     name: coffee-and-tea
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-04-01T14:40:02.193333418Z"
+    created: "2025-04-01T14:49:24.939300754Z"
     description: A Helm chart for Kubernetes
     digest: f59ab0b08d8c770873632f2a91981af984db10195dee6f18409f2233a56cd42a
     name: coffee-and-tea
@@ -23,7 +23,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-04-01T14:40:02.193710893Z"
+    created: "2025-04-01T14:49:24.93968436Z"
     description: A Helm chart for Kubernetes
     digest: f59ab0b08d8c770873632f2a91981af984db10195dee6f18409f2233a56cd42a
     name: coffee-and-tea
@@ -31,4 +31,4 @@ entries:
     urls:
     - https://midzaru2011.github.io/helm-charts/docs/coffee-and-tea-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-01T14:40:02.192395445Z"
+generated: "2025-04-01T14:49:24.938414258Z"
