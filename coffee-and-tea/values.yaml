@@ -11,6 +11,7 @@ service:
   type: LoadBalancer
   port: 8082
   targetPort: 8082
+  sessionAffinity: ClientIP # Включает Sticky Sessions
 
 database:
   url: jdbc:postgresql://158.160.34.71:5432/CoffeeAndTea
