@@ -15,9 +15,6 @@ spec:
     helm:
       valueFiles:
         - values.yaml # Основной файл значений
-      parameters:
-        - name: replicaCount # Пример параметра
-          value: "2" # Значение параметра
 
   destination:
     server: https://kubernetes.default.svc # API-сервер Kubernetes (локальный кластер)
