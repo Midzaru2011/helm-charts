@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coffee-and-tea # Имя Argo CD Application
+  namespace: argocd # Пространство имен, где запущен Argo CD
+spec:
+  project: default # Проект Argo CD (по умолчанию "default")
+
+  source:
+    repoURL: git@github.com:Midzaru2011/helm-charts.git # URL Git-репозитория
+    targetRevision: HEAD # Ветка или тег (например, main, master или v1.0.0)
+    path: coffee-and-tea # Путь к директории с манифестами в репозитории
+
+    # Если вы используете Helm, добавьте секцию helm:
+    helm:
+      valueFiles:
+        - values.yaml # Основной файл значений
+      parameters:
+        - name: replicaCount # Пример параметра
+          value: "2" # Значение параметра
+
+  destination:
+    server: https://kubernetes.default.svc # API-сервер Kubernetes (локальный кластер)
+    namespace: my-app-namespace # Целевое пространство имен для развертывания приложения
+
+  syncPolicy:
+    automated: # Настройка автоматической синхронизации
+      prune: true # Удалять ресурсы, которые больше не определены в Git
+      selfHeal: true # Автоматически исправлять изменения, сделанные вне Argo CD
+    syncOptions:
+      - CreateNamespace=true # Создавать пространство имен, если оно не существует
