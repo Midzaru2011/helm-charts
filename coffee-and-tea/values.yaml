@@ -4,7 +4,7 @@ replicaCount: 4
 
 image:
   repository: midzaru2011/coffee-and-tea-app
-  tag: "1.0.4"
+  tag: "1.0.3"
   pullPolicy: IfNotPresent
 
 service:
